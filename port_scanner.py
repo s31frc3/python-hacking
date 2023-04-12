@@ -27,10 +27,10 @@ def scan_port(ip_addr, port, bar):
         sock.connect((ip_addr, port))
         try:
             banner = get_banner(sock)
-            print(colored(f'''\n[+] Port {port} is open!
+            print(colored('\n[+]','red'),colored(f'''Port {port} is open!
             {str(banner.decode())}''', 'green'))
         except:
-            print(colored(f'\n[+] Port {port} is open!', 'green'))
+            print(colored(f'\n[{ip_addr}]','red'),colored(f'Port {port} is open!', 'green'))
         sock.close()
     except:
         # print(colored(f'[-] Port {port} is closed', 'red'))
@@ -57,5 +57,3 @@ if ',' in targets:
         scan(ip_addr.strip(), port)
 else:
     scan(targets.strip(),port)
-
-
