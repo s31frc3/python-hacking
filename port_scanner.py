@@ -32,7 +32,6 @@ def scan_port(ip_addr, port, bar):
             print(colored(f'\n[{ip_addr}]','red'),colored(f'Port {port} is open!', 'green'))
         sock.close()
     except:
-        # print(colored(f'[-] Port {port} is closed', 'red'))
         pass
     finally:
         bar.next()
