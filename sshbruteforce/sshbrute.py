@@ -14,7 +14,8 @@ def ssh_connect(password):
         stop_flag = 1
         print(colored(f'[+] found password: "{password}" for account "{username}"', 'green'))
     except:
-       ssh.close()
+        print(colored(f'[-] Incorrect login with pass "{password}"', 'red'))
+        ssh.close()
 
 host = input(colored('[+] Target address: ', 'blue'))
 username = input(colored('[+] ssh username: ', 'blue'))
