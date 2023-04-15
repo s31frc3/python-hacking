@@ -41,6 +41,8 @@ def get_login_pass(body):
 
     for login in userfields:
         login_re = re.search('(%s=[^&]+)' % login, body, re.IGNORECASE)
+        if login_re:
+            user = login
     
     
 
