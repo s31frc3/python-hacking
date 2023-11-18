@@ -1,0 +1,13 @@
+# on at least 3 different hosts
+archives
+ink
+assets
+strona_20
+strona_5
+strona_1
+36
+login.php
+portal.php
+denied.php
+robots.txt
+clue.txt
