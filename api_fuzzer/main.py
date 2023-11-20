@@ -1,6 +1,6 @@
 import requests, sys
 
-# fuzz_url = "https://lootdog.io/api/face/promos/?format=json&lang=EN"
+# usage: $ cat fuzz_dirs.txt | python3 main.py
 
 def loop():
     for word in sys.stdin:
