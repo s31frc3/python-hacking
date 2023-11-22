@@ -33,7 +33,6 @@ def spider_urls(url, keyword):
             else:
                 pass
 
-
 parser = argparse.ArgumentParser(description='Process some arguments.')
 parser.add_argument('-u', '--url', help='URL argument')
 parser.add_argument('-k', '--keyword', help='Keyword argument')
