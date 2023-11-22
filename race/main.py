@@ -10,4 +10,4 @@ def send():
         else:
             print("все плохо")
 
-array = [threading.Thread(target=send).start() for x in range(1000)]
+array = [threading.Thread(target=send).start() for x in range(100000)]
